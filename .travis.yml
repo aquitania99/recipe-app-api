@@ -13,3 +13,5 @@ before_script: pip install docker-compose
 script:
   - docker-compose run app sh -c "python manage.py test && flake8"
 
+notifications:
+  slack: akelasolutions:NND3ubpaNhj60fMcOBUKqxFc

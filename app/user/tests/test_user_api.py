@@ -37,7 +37,10 @@ class PublicUserApiTests(TestCase):
 
     def test_user_exists(self):
         """Test creating a user that already exists fails"""
-        payload = {'email': 'test@akela.solutions', 'password': 'Pass@word01', 'name': 'Test'}
+        payload = {
+            'email': 'test@akela.solutions',
+            'password': 'Pass@word01',
+            'name': 'Test'}
         create_user(**payload)
 
         res = self.client.post(CREATE_USER_URL, payload)
@@ -46,7 +49,10 @@ class PublicUserApiTests(TestCase):
 
     def test_password_too_short(self):
         """Test that the password must be more than 5 characters"""
-        payload = {'email': 'test@akela.solutions', 'password': 'Pass', 'name': 'Test'}
+        payload = {
+            'email': 'test@akela.solutions',
+            'password': 'Pass',
+            'name': 'Test'}
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
@@ -57,7 +63,9 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_for_user(self):
         """Test that a token is created for the user"""
-        payload = {'email': 'test@akela.solutions', 'password': 'testpass'}
+        payload = {
+            'email': 'test@akela.solutions',
+            'password': 'testpass'}
         create_user(**payload)
         res = self.client.post(TOKEN_URL, payload)
         self.assertIn('token', res.data)
@@ -66,7 +74,9 @@ class PublicUserApiTests(TestCase):
     def create_token_invalid_credentials(self):
         """Token is not created if invalid credentials are given"""
         create_user(email='test@akela.solutions', password='testpass')
-        payload = {'email': 'test@akela.solutions', 'password': 'wrong'}
+        payload = {
+            'email': 'test@akela.solutions',
+            'password': 'wrong'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
